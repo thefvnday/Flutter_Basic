@@ -1,19 +1,155 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:hollo_world/widget/text_widget.dart';
 
 void main() {
   runApp(MaterialApp(
     title: "Hello World",
     home: Scaffold(
-      appBar: AppBar(title: Text ("Welcome to Flutter"),),
+      appBar: AppBar(
+      title: Text ("Welcome to Flutter"),
+      //IconButton
+      leading: IconButton(
+         icon: Icon(Icons.home,
+         color: Colors.white,
+         ),
+         onPressed: (){
+           print("Back to home");
+         })
+      ),
       body:Center(
-       child: FlatButtonWidget() ,
-      ) 
+       child: TextFieldWidget() ,
+       
+      ),
+      //Float
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blue,
+        elevation: 0,
+        child: Icon(Icons.add),
+        onPressed: (){
+          print("Clicked");
+        }
+      ),
     ),
   ));
 }
+
+//Radio Button
+enum  Gender { male, female }
+
+class RadioWidget extends StatefulWidget {
+  @override
+  _RadioWidgetState createState() => _RadioWidgetState();
+}
+
+class _RadioWidgetState extends State<RadioWidget> {
+  Gender _gender = Gender.female;
+
+  @override
+  Widget build(BuildContext context) => Column(
+        children: <Widget>[
+          ListTile(
+            title: Text("Laki - laki"),
+            leading: Radio(
+                value: Gender.male,
+                groupValue: _gender,
+                onChanged: (value){
+                  setState(() {
+                      _gender = Gender.male;
+                  });
+                }),
+          ),
+          ListTile(
+            title: Text("Perempuan"),
+            leading: Radio(
+                value: Gender.female,
+                groupValue: _gender,
+                onChanged: (value){
+                  setState(() {
+                      _gender = Gender.female;
+                  });
+                }),
+          ),
+        ],
+      );
+}
+
+//RisedButton
+class RaisedButtonWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) => RaisedButton(
+      child: Text(
+        "Click here",
+        style: TextStyle(fontSize: 20),
+      ),
+      splashColor: Colors.grey,
+      onPressed: () => print("Clicked"));
+}
+
+//Slider
+class SliderWidget extends StatefulWidget {
+  @override
+  _SliderWidgetState createState() => _SliderWidgetState();
+}
+
+class _SliderWidgetState extends State<SliderWidget> {
+  double _min = 0, _max = 100, _value = 60;
+
+  @override
+  Widget build(BuildContext context) => Slider(
+      min: _min,
+      max: _max,
+      value: _value,
+      onChanged: (value){
+        setState(() {
+          _value = value;
+          print(_value.toString());
+        });
+      }
+      
+      );
+}
+
+//Switch widget
+class SwitchWidget extends StatefulWidget {
+  @override
+  _SwitchWidgetState createState() => _SwitchWidgetState();
+}
+
+class _SwitchWidgetState extends State<SwitchWidget> {
+  bool _isChecked = true;
+
+  @override
+  Widget build(BuildContext context) => Switch(
+      value: _isChecked,
+      onChanged: (value){
+        setState(() {
+          _isChecked = value;
+          print(_isChecked.toString());
+        });
+      });
+}
+
+// Text Field Jika true maka tampak jika false maka hiden seperti password
+class TextFieldWidget extends StatelessWidget {
+  final _controller = TextEditingController(text: "Initial text");
+
+  @override
+  Widget build(BuildContext context) => TextField(
+        obscureText: false,
+        controller: _controller,
+        decoration: InputDecoration(
+          labelText: "Input Text"),
+        onChanged: (value){
+          print(value);
+        },
+           // border: OutlineInputBorder(), labelText: "Password"),
+      
+  );
+}
+
 
 //column
 class FlexWidget extends StatelessWidget {
@@ -130,7 +266,7 @@ class _DropDownWidgetState extends State<DropDownWidget> {
       onChanged: (value) => setState(() => _value = value));
 }
 
-//buton
+//button
 class FlatButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => FlatButton(
@@ -143,3 +279,5 @@ class FlatButtonWidget extends StatelessWidget {
       onPressed: () => print("Clicked"),
       child: Text("Click here"));
 }
+
+
