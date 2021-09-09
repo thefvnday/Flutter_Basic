@@ -20,7 +20,7 @@ void main() {
          })
       ),
       body:Center(
-       child: TextFieldWidget() ,
+       child: LifeCycleWidget() ,
        
       ),
       //Float
@@ -34,6 +34,162 @@ void main() {
       ),
     ),
   ));
+}
+
+//Guestur widget
+class GestureWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) => GestureDetector(
+        child: Text("Guesture"),
+        onTap: (){
+          print("Hallo");
+        },
+        onDoubleTap: (){
+          print("Hallo Hallo");
+        }
+
+       
+      );
+}
+
+// LifeCycleWidget
+class LifeCycleWidget extends StatefulWidget {
+  const LifeCycleWidget({ Key? key }) : super(key: key);
+
+  @override
+  _LifeCycleWidgetState createState() => _LifeCycleWidgetState();
+}
+
+class _LifeCycleWidgetState extends State<LifeCycleWidget>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  bool _isStatless = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _isStatless ? Stateless() : StateFul(),
+        SizedBox(height:16,),
+        FlatButton(
+          onPressed: (){
+            setState(() {
+              _isStatless = !_isStatless;
+            });
+          },
+          child: Text("Change")
+        )
+      ],
+    );
+  }
+}
+
+class Stateless extends StatelessWidget {
+  const Stateless({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    print("StatelessWidget build");
+
+    return Container(
+      child: Text("STATLESS"), 
+    );
+  }
+}
+
+class StateFul extends StatefulWidget {
+  const StateFul({ Key? key }) : super(key: key);
+
+  @override
+  _StateFulState createState() => _StateFulState();
+}
+
+class _StateFulState extends State<StateFul> with WidgetsBindingObserver{
+  bool _isChecked = false;
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // TODO: implement didChangeAppLifecycleState
+    super.didChangeAppLifecycleState(state);
+    if(state== AppLifecycleState.inactive){
+      print("INACTIVE");
+    } else if (state == AppLifecycleState.paused){
+      print("PAUSED");
+    } else if (state == AppLifecycleState.resumed){
+      print("RESUMED");
+    } else if(state == AppLifecycleState.detached){
+      print("DETACHED");
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print("initState");
+    WidgetsBinding.instance?.addObserver(this);
+  }
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    print("didChangeDependencies");
+  }
+
+  @override
+  void didUpdateWidget(covariant StateFul oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+    print("didUpdateWidget");
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    // TODO: implement setState
+    super.setState(fn);
+    print("setState");
+  }
+
+  @override
+  void deactivate() {
+    // TODO: implement deactivate
+    super.deactivate();
+    print("deactivate");
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    print("dispose");
+    WidgetsBinding.instance?.removeObserver(this);
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    print("StatefullWidget Build");
+
+    return SwitchListTile(
+      value: _isChecked, 
+      onChanged: (value){
+        setState(() {
+          _isChecked = value;
+        });
+      });
+  }
 }
 
 //Radio Button
