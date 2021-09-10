@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:hollo_world/widget/text_widget.dart';
@@ -20,7 +18,7 @@ void main() {
          })
       ),
       body:Center(
-       child: LifeCycleWidget() ,
+       child: ImageWidget() ,
        
       ),
       //Float
@@ -36,6 +34,25 @@ void main() {
   ));
 }
 
+//Images
+class ImageWidget extends StatelessWidget {
+  const ImageWidget({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        (Image.asset("assets/images/avatar.png",
+        height: 500,
+        )
+        
+        )
+      ],
+    );
+  }
+}
+
 //Guestur widget
 class GestureWidget extends StatelessWidget {
   @override
@@ -47,8 +64,6 @@ class GestureWidget extends StatelessWidget {
         onDoubleTap: (){
           print("Hallo Hallo");
         }
-
-       
       );
 }
 
@@ -96,6 +111,7 @@ class _LifeCycleWidgetState extends State<LifeCycleWidget>
     );
   }
 }
+
 
 class Stateless extends StatelessWidget {
   const Stateless({ Key? key }) : super(key: key);
