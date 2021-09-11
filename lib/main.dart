@@ -5,8 +5,22 @@ import 'package:hollo_world/widget/text_widget.dart';
 void main() {
   runApp(MaterialApp(
     title: "Hello World",
-    home: Scaffold(
-      appBar: AppBar(
+    home: HomePage(),
+    routes: <String,WidgetBuilder>{
+      "/avatar2": (BuildContext context) =>
+      SocmedPage(name: "avatar2", image:"assets/avatar2.png"),  //deklarasi root
+
+    }
+  ));
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+       appBar: AppBar(
       title: Text ("Welcome to Flutter"),
       //IconButton
       leading: IconButton(
@@ -30,9 +44,11 @@ void main() {
           print("Clicked");
         }
       ),
-    ),
-  ));
+    );
+  }
 }
+
+
 
 //Images
 class ImageWidget extends StatelessWidget {
@@ -43,15 +59,61 @@ class ImageWidget extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        (Image.asset("assets/images/avatar.png",
-        height: 500,
-        )
-        
+        Expanded(child: GestureDetector(
+          onTap: (){
+            Navigator.push(   // navigate to new screen
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                SocmedPage(
+                  name: "Fand",
+                  image: "assets/avatar.png"),
+                  ));
+             },
+          child: Image.asset("assets/avatar.png"),
+        )),
+        Expanded(
+            child: GestureDetector(      //navigate with routes
+              onTap: (){
+                Navigator.pushNamed(context, "/avatar2");
+
+              },
+            ), 
         )
       ],
+      
     );
   }
 }
+
+//navigate to a new screen and back
+class SocmedPage extends StatelessWidget {
+
+   final  String  name,image;
+
+   SocmedPage({required  this.name, required this.image});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(name),),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(image),
+          SizedBox(height: 16),
+          FlatButton(onPressed: (){
+            Navigator.pop(context);
+          },
+          child: Text("Back to home"),
+          )
+        ],
+
+      )
+    );
+  }
+}
+
 
 //Guestur widget
 class GestureWidget extends StatelessWidget {
