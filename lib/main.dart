@@ -3,9 +3,10 @@ import 'package:flutter/rendering.dart';
 import 'package:hollo_world/widget/text_widget.dart';
 
 void main() {
-  runApp(MaterialApp(
+  runApp(
+    MaterialApp(
     title: "Hello World",
-    home: HomePage(),
+    home: _CounterpPage(),
     routes: <String,WidgetBuilder>{
       "/avatar2": (BuildContext context) =>
       SocmedPage(name: "avatar2", image:"assets/avatar2.png"),  //deklarasi root
@@ -48,7 +49,44 @@ class HomePage extends StatelessWidget {
   }
 }
 
+//App State -> Simple State Management , tambahkan provider ^4.3.2 pada pubspace yaml
 
+
+// Ephemeral State mengatur tampilan hanya pada state tersebut
+class _CounterpPage extends StatefulWidget {
+  const _CounterpPage({ Key? key }) : super(key: key);
+
+  @override
+  __CounterpPageState createState() => __CounterpPageState();
+}
+
+class __CounterpPageState extends State<_CounterpPage> {
+  int _counter =1;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Ephemeral State"),),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("Anda menekan floating action button sebanya : "),
+          Text(
+            "$_counter",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          )
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed:(){
+          setState(() {
+            _counter++;
+          });
+        },
+        child: Icon(Icons.add),
+        ),
+    );
+  }
+}
 
 //Images
 class ImageWidget extends StatelessWidget {
